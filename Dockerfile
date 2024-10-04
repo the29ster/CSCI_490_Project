@@ -1,19 +1,21 @@
-# Dockerfile
+# Base image
+FROM python:3.9-slim
 
-# The first instruction is what image we want to base our container on
-# We Use an official Python runtime as a parent image
-FROM python:3.7
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Allows docker to cache installed dependencies between builds
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Set the working directory to the root of your project
+WORKDIR /app/mysite
 
-# Mounts the application code to the image
-COPY . code
-WORKDIR /code
+# Copy the requirements.txt to the app directory
+COPY requirements.txt /app/
 
-EXPOSE 8000
+# Install Python dependencies
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# runs the production server
-ENTRYPOINT ["python", "mysite/manage.py"]
-CMD ["runserver", "0.0.0.0:8000"]
+# Copy the rest of the project files into the container
+COPY . /app/
+
+# Run the Django migrations and start the development server
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
