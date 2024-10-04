@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Card Prices</title>
+</head>
+<body>
+    <h1>Magic the Gathering Card Price Tracker</h1>
+
+    <!-- Search form -->
+    <form method="GET" action="{% url 'search_card_price' %}">
+        <label for="card_name">Enter Card Name:</label>
+        <input type="text" id="card_name" name="card_name" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Display the search result if a price is found -->
+    {% if card_price %}
+        <h2>Price for "{{ card_name }}": ${{ card_price }}</h2>
+
+        <!-- Display the card image -->
+        {% if card_image %}
+            <img src="{{ card_image }}" alt="Image of {{ card_name }}">
+        {% endif %}
+    {% elif card_not_found %}
+        <h2>Card "{{ card_name }}" not found.</h2>
+    {% endif %}
+</body>
+</html>

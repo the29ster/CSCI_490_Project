@@ -1,11 +1,35 @@
 from django.shortcuts import render
 from .utils import get_card_data
 from .models import Card
+import requests
+from django.shortcuts import render
 
 # Create your views here.
 
-def hello_world(request):
-    return render(request, 'hello_world.html', {})
+def homepage(request):
+    card_price = None
+    card_image = None
+    card_not_found = False
+    card_name = request.GET.get('card_name')
+
+    if card_name:
+        # Scryfall API search for the card name
+        api_url = f"https://api.scryfall.com/cards/named?fuzzy={card_name}"
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            card_data = response.json()
+            card_price = card_data['prices']['usd']  # Fetch USD price
+            card_image = card_data['image_uris']['normal'] if 'image_uris' in card_data else None
+        else:
+            card_not_found = True
+
+    return render(request, 'homepage.html', {
+        'card_price': card_price,
+        'card_name': card_name,
+        'card_image': card_image,
+        'card_not_found': card_not_found
+    })
 
 def card_price_view(request, card_name):
     card_data = get_card_data(card_name)
