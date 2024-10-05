@@ -32,31 +32,6 @@ def homepage(request):
         'card_not_found': card_not_found
     })
 
-def card_price_view(request, card_name):
-    card_data = get_card_data(card_name)
-    
-    if card_data:
-        card, created = Card.objects.get_or_create(
-            scryfall_id=card_data['scryfall_id'],
-            defaults={
-                'name': card_data['name'],
-                'usd_price': card_data['usd_price'],
-                'eur_price': card_data['eur_price'],
-                'tix_price': card_data['tix_price'],
-            }
-        )
-        if not created:
-            # Update existing card price
-            card.usd_price = card_data['usd_price']
-            card.eur_price = card_data['eur_price']
-            card.tix_price = card_data['tix_price']
-            card.save()
-    
-        context = {'card': card}
-        return render(request, 'card_price.html', context)
-    
-    return render(request, 'card_not_found.html', {'card_name': card_name})
-
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
