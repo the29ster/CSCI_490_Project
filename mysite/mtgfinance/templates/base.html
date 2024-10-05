@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My MTG Finance App{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'register' %}">Register</a>
+            <a href="{% url 'login' %}">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Content will be inserted here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>© 2024 MTG Finance</p>
+    </footer>
+</body>
+</html>
