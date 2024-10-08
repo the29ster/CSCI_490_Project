@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from .utils import get_card_data
 from .models import Card
 import requests
 from django.contrib import messages
