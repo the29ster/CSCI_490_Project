@@ -28,6 +28,9 @@
         {% if card_image %}
             <img src="{{ card_image }}" alt="Image of {{ card_name }}">
         {% endif %}
+
+        <a href="{% url 'add_to_collection' card_scryfall_id %}">Add to Collection</a>  <!-- Update with correct variable -->
+        
     {% elif card_not_found %}
         <h2>Card "{{ card_name }}" not found.</h2>
     {% endif %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Your Collection{% endblock %}
+
+{% block content %}
+    <h1>Your Collection</h1>
+    <ul>
+    {% for user_card in user_cards %}
+        <li>
+            <h3>{{ user_card.card.name }} - ${{ user_card.card.usd_price }}</h3>
+            {% if user_card.card.image_url %}
+                <img src="{{ user_card.card.image_url }}" alt="Image of {{ user_card.card.name }}" style="width:150px; height:auto;">
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>You have no cards in your collection.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
